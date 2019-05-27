@@ -67,4 +67,29 @@ class IngredientsSearch extends Ingredients
 
         return $dataProvider;
     }
+
+    public function searchOwnIngs($params)
+    {
+        $query = Ingredients::find()
+            ->select('*')
+            ->leftJoin('recipes_to_ingredients', '`recipes_to_ingredients`.`ingredient_id` = `ingredients`.`id`')
+            ->where(['`recipes_to_ingredients`.`recipe_id`' => $params['id']])
+            ->with('recipes_to_ingredients');
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        if (!$this->validate()) return $dataProvider;
+
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'title' => $this->title,
+            'amount' => $this->amount,
+        ]);
+
+        return $dataProvider;
+    }
 }

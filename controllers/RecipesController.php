@@ -65,8 +65,7 @@ class RecipesController extends Controller
     public function actionView($id)
     {
         $searchModelIng = new IngredientsSearch();
-        $dataProviderIng = $searchModelIng->search(Yii::$app->request->queryParams);
-
+        $dataProviderIng = $searchModelIng->searchOwnIngs(Yii::$app->request->queryParams);
         return $this->render('view', [
             'model' => $this->findModel($id),
             'searchModelIng' => $searchModelIng,

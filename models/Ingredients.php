@@ -62,7 +62,7 @@ class Ingredients extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRecipesToIngredients()
+    public function getrecipes_to_ingredients()
     {
         return $this->hasMany(RecipesToIngredients::className(), ['ingredient_id' => 'id']);
     }

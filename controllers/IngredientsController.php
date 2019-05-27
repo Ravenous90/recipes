@@ -112,8 +112,8 @@ class IngredientsController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $recipe_id = Yii::$app->request->get('recipe_id');
+        return $this->redirect(['recipes/' . $recipe_id]);
     }
 
     /**

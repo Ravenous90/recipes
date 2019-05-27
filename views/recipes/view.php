@@ -6,6 +6,7 @@ use yii\grid\GridView;
 use app\models\Ingredients;
 use app\models\Measures;
 use app\models\RecipesSearch;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Recipes */
@@ -50,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif; ?>
     <?= GridView::widget([
         'dataProvider' => $dataProviderIng,
-        'filterModel' => $searchModelIng,
+//        'filterModel' => $searchModelIng,
         'columns' => [
             'title',
             'amount',
@@ -65,10 +66,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'buttons' => [
                     'update' => function ($index)  {
-                        return Html::a('', ['ingredients/update?id=' . intval(substr(parse_url($index)['query'],3))], ['class' => 'glyphicon glyphicon-pencil']);
+                        return Html::a('', ['ingredients/update?id=' . intval(substr(parse_url($index)['query'],3))],
+                            ['class' => 'glyphicon glyphicon-pencil']);
                     },
-                    'delete' => function ($index)  {
-                        return Html::a('', ['/ingredients/delete?id=' . intval(substr(parse_url($index)['query'],3))], ['class' => 'glyphicon glyphicon-trash']);
+                    'delete' => function ($index) use ($model) {
+                        return Html::a('', ['/ingredients/delete?id=' . intval(substr(parse_url($index)['query'],3)) . '&recipe_id=' . $model->id],
+                            [
+                                'class' => 'glyphicon glyphicon-trash',
+                                'data' => [
+                                    'confirm' => 'Are you absolutely sure ? You will lose all the information about this user with this action.',
+                                    'method' => 'post',
+                                ],
+                            ]);
                     },
                 ],
             ],
@@ -76,5 +85,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ]); ?>
     </div>
-
 </div>
