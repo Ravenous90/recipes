@@ -78,9 +78,4 @@ class Recipes extends \yii\db\ActiveRecord
         return new RecipesQuery(get_called_class());
     }
 
-    public static function getIngredients()
-    {
-        return 1;
-    }
-
 }

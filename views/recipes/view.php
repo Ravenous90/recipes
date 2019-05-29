@@ -65,19 +65,27 @@ $this->params['breadcrumbs'][] = $this->title;
                     'view' => false,
                 ],
                 'buttons' => [
-                    'update' => function ($index)  {
-                        return Html::a('', ['ingredients/update?id=' . intval(substr(parse_url($index)['query'],3))],
-                            ['class' => 'glyphicon glyphicon-pencil']);
+                    'update' => function ($index) use ($model) {
+                        if (RecipesSearch::isMyRecipe($model->id)) {
+                            return Html::a('', ['ingredients/update?id=' . intval(substr(parse_url($index)['query'], 3))],
+                                ['class' => 'glyphicon glyphicon-pencil']);
+                        } else {
+                            return false;
+                        }
                     },
                     'delete' => function ($index) use ($model) {
-                        return Html::a('', ['/ingredients/delete?id=' . intval(substr(parse_url($index)['query'],3)) . '&recipe_id=' . $model->id],
-                            [
-                                'class' => 'glyphicon glyphicon-trash',
-                                'data' => [
-                                    'confirm' => 'Are you absolutely sure ? You will lose all the information about this user with this action.',
-                                    'method' => 'post',
-                                ],
-                            ]);
+                        if (RecipesSearch::isMyRecipe($model->id)) {
+                            return Html::a('', ['/ingredients/delete?id=' . intval(substr(parse_url($index)['query'], 3)) . '&recipe_id=' . $model->id],
+                                [
+                                    'class' => 'glyphicon glyphicon-trash',
+                                    'data' => [
+                                        'confirm' => 'Are you absolutely sure ? You will lose all the information about this user with this action.',
+                                        'method' => 'post',
+                                    ],
+                                ]);
+                        } else {
+                            return false;
+                        }
                     },
                 ],
             ],
